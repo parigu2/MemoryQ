@@ -4,7 +4,9 @@ const CardList = require('./cardList')
 const Extra = require('./extra')
 
 User.hasMany(CardList)
+User.hasMany(Card)
 CardList.belongsTo(User)
+Card.belongsTo(User)
 
 CardList.hasMany(Card)
 Card.belongsToMany(CardList, {through: 'listCard'})
