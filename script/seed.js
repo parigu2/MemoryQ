@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Card, CardList} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -12,7 +12,46 @@ async function seed() {
     User.create({email: 'murphy@email.com', password: '123'})
   ])
 
+  const cards = await Promise.all([
+    Card.create({
+      word: 'accomplishment',
+      pronounciation: `[əˈkɑːm-]`,
+      definition: '[명사] 업적, 공적',
+      example: `- It was one of the President’s greatest accomplishments.
+
+      그것은 대통령의 가장 큰 공적 중 하나였다.`,
+      comment: 'accomplish = 동사',
+    }),
+    Card.create({
+      word: 'efficiency',
+      pronounciation: `[ɪˈfɪʃnsi]`,
+      definition: '[명사] 효율(성), 능률',
+      example: `- improvements in efficiency at the factory
+
+      공장 내 능률 개선`,
+      comment: 'efficient = 형용사',
+    }),
+  ])
+
+  const cardLists = await Promise.all([
+    CardList.create({
+      name: 'English Word',
+      isFavorite: true
+    }),
+    CardList.create({
+      name: 'empty',
+    })
+  ])
+
+  await Promise.all(
+    cards.map(async card => {
+      await card.addCardLists(1)
+    })
+  )
+
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${cards.length} cards`)
+  console.log(`seeded ${cardLists.length} card lists`)
   console.log(`seeded successfully`)
 }
 
