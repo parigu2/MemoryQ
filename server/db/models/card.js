@@ -16,9 +16,7 @@ const Card = db.define('card', {
     validation: {
       notEmpty: true
     }
-  },
-  example: Sequelize.TEXT,
-  comment: Sequelize.TEXT
+  }
 })
 
 module.exports = Card
