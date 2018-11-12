@@ -20,6 +20,9 @@ class List extends Component {
    const {words} = this.props.word
    return (
     <div>hi
+      <div>
+        ADD
+      </div>
       {
         words.length ?
         words.map(word => {
@@ -29,6 +32,12 @@ class List extends Component {
               <Card.Header>{word.word}<Icon name='book'></Icon></Card.Header>
               <Card.Meta>{word.pronounciation}</Card.Meta>
               <Card.Description>{word.definition}</Card.Description>
+              <div>
+                EDIT
+              </div>
+              <div>
+                REMOVE
+              </div>
             </Card.Content>
           </Card>
           )
