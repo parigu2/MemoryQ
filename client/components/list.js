@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getWordsThunk} from '../store/word'
+import { Card, Icon, Image } from 'semantic-ui-react'
 
 class List extends Component {
  constructor() {
@@ -23,9 +24,13 @@ class List extends Component {
         words.length ?
         words.map(word => {
           return (
-          <div key={word.id}>
-            <p>{word.word}</p>
-          </div>
+          <Card key={word.id}>
+            <Card.Content>
+              <Card.Header>{word.word}<Icon name='book'></Icon></Card.Header>
+              <Card.Meta>{word.pronounciation}</Card.Meta>
+              <Card.Description>{word.definition}</Card.Description>
+            </Card.Content>
+          </Card>
           )
         })
         : <p>Please insert card</p>
