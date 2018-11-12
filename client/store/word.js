@@ -2,7 +2,9 @@ import axios from 'axios'
 
 const GET_WORDS = 'GET_WORDS'
 
-const initialState
+const initialState = {
+  words: []
+}
 
 const getWords = words => ({
   type: GET_WORDS,
