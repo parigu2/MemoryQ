@@ -11,6 +11,17 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.post('/', async (req, res, next) => {
+  try {
+    console.log('requese', req.body)
+    const newWord = await Card.create(req.body)
+    console.log('newWord', newWord)
+    res.json(newWord)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/:userId', async (req, res, next) => {
   try {
     const word = await Card.findAll({
