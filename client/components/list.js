@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getWordsThunk} from '../store/word'
-import { Card, Icon, Image } from 'semantic-ui-react'
+import { Card, Icon, Button } from 'semantic-ui-react'
 
 class List extends Component {
  constructor() {
@@ -19,9 +19,9 @@ class List extends Component {
  render() {
    const {words} = this.props.word
    return (
-    <div>hi
+    <div>
       <div>
-        ADD
+        <Button basic color='teal' content='ADD' />
       </div>
       {
         words.length ?
@@ -32,12 +32,11 @@ class List extends Component {
               <Card.Header>{word.word}<Icon name='book'></Icon></Card.Header>
               <Card.Meta>{word.pronounciation}</Card.Meta>
               <Card.Description>{word.definition}</Card.Description>
-              <div>
-                EDIT
-              </div>
-              <div>
-                REMOVE
-              </div>
+              <Button.Group>
+                <Button positive>EDIT</Button>
+                <Button.Or text='or' />
+                <Button negative>REMOVE</Button>
+              </Button.Group>
             </Card.Content>
           </Card>
           )
