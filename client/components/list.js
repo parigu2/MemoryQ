@@ -1,27 +1,70 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getWordsThunk} from '../store/word'
-import { Card, Icon, Button } from 'semantic-ui-react'
+import {FormCard} from './formCard'
+import {getWordsThunk, addWordThunk} from '../store/word'
+import { Card, Icon, Button, Modal } from 'semantic-ui-react'
 
 class List extends Component {
- constructor() {
-  super()
-  this.state = {
-
+  constructor() {
+    super()
+    this.state = {
+      word: '',
+      pronounciation: '',
+      definition: '',
+      modalOpen: false
+    }
+    this.textChange = this.textChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleOpen = this.handleOpen.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
- }
 
- componentDidMount() {
-  this.props.getWords()
-}
+  componentDidMount() {
+    this.props.getWords()
+  }
 
+  handleOpen() {
+    this.setState({modalOpen: true})
+  }
 
- render() {
+  handleClose() {
+    this.setState({modalOpen: false})
+  }
+
+  textChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  async handleSubmit(event) {
+    event.preventDefault()
+
+    await this.props.post(this.state)
+    this.setState({modalOpen: false})
+  }
+
+  render() {
    const {words} = this.props.word
+
    return (
     <div>
       <div>
-        <Button basic color='teal' content='ADD' />
+        <Modal
+        trigger={<Button basic color='teal'
+        onClick={this.handleOpen}>ADD</Button>}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}>
+          <Modal.Header>Add Card</Modal.Header>
+          <Modal.Content image>
+            {/* <Image wrapped size='medium' src={this.state.imageUrl} /> */}
+              {/* <h2 className="title">Edit Product</h2> */}
+            <Modal.Description>
+              {/* <FormProduct textChange={this.textChange} increment={this.increment} decrement={this.decrement} handleSubmit={this.handleSubmit} inputCategory={this.inputCategory} value={this.state} category={this.props.categories}/> */}
+              <FormCard value={this.state} handleSubmit={this.handleSubmit} textChange={this.textChange}close={this.handleClose}/>
+            </Modal.Description>
+          </Modal.Content>
+          </Modal>
       </div>
       {
         words.length ?
@@ -57,6 +100,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getWords: () => dispatch(getWordsThunk()),
+    post: word => dispatch(addWordThunk(word))
   }
 }
 
