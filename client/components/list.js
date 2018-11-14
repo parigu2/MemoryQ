@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {FormCard} from './formCard'
-import {getWordsThunk, addWordThunk} from '../store/word'
+import {getWordsThunk, addWordThunk, removeWordThunk} from '../store/word'
 import { Card, Icon, Button, Modal } from 'semantic-ui-react'
 
 class List extends Component {
@@ -17,6 +17,7 @@ class List extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleOpen = this.handleOpen.bind(this)
     this.handleClose = this.handleClose.bind(this)
+    this.removeCard = this.removeCard.bind(this)
   }
 
   componentDidMount() {
@@ -29,6 +30,11 @@ class List extends Component {
 
   handleClose() {
     this.setState({modalOpen: false})
+  }
+
+  async removeCard(event) {
+    const wordId = event.target.value
+    await this.props.delete(wordId)
   }
 
   textChange(event) {
@@ -76,9 +82,12 @@ class List extends Component {
               <Card.Meta>{word.pronounciation}</Card.Meta>
               <Card.Description>{word.definition}</Card.Description>
               <Button.Group>
-                <Button positive>EDIT</Button>
+                <Button positive
+                >EDIT</Button>
                 <Button.Or text='or' />
-                <Button negative>REMOVE</Button>
+                <Button negative
+                onClick={this.removeCard}
+                value={word.id}>REMOVE</Button>
               </Button.Group>
             </Card.Content>
           </Card>
@@ -100,7 +109,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getWords: () => dispatch(getWordsThunk()),
-    post: word => dispatch(addWordThunk(word))
+    post: word => dispatch(addWordThunk(word)),
+    delete: wordId => dispatch(removeWordThunk(wordId))
   }
 }
 

@@ -13,11 +13,25 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log('requese', req.body)
     const newWord = await Card.create(req.body)
-    console.log('newWord', newWord)
     res.json(newWord)
   } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/:wordId', async (req, res, next) => {
+  try {
+    const id = req.params.wordId
+
+    await Card.destroy({
+      where: {
+        id
+      }
+    })
+    const removedCard = await Card.findAll()
+    res.json(removedCard)
+  } catch(err) {
     next(err)
   }
 })
