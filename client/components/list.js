@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {FormCard} from './formCard'
 import {getWordsThunk, addWordThunk, removeWordThunk} from '../store/word'
-import { Card, Icon, Button, Modal } from 'semantic-ui-react'
+import { Card, Icon, Button, Modal, Popup } from 'semantic-ui-react'
 
 class List extends Component {
   constructor() {
@@ -76,11 +76,12 @@ class List extends Component {
         words.length ?
         words.map(word => {
           return (
-          <Card key={word.id}>
+          <Card color='teal' key={word.id}>
             <Card.Content>
-              <Card.Header>{word.word}<Icon name='book'></Icon></Card.Header>
+              <Popup trigger={<Card.Header>{word.word}<Icon name='book'></Icon></Card.Header>}
+              content={word.definition}/>
               <Card.Meta>{word.pronounciation}</Card.Meta>
-              <Card.Description>{word.definition}</Card.Description>
+              {/* <Card.Description>{word.definition}</Card.Description> */}
               <Button.Group>
                 <Button positive
                 >EDIT</Button>
