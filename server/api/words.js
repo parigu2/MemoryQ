@@ -11,11 +11,41 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/:wordId', async (req, res, next) => {
+  try {
+    const id = req.params.wordId
+    const card = await Card.findAll({
+      where: {
+        id,
+      }
+    })
+    res.json(card)
+  } catch(err) {
+    next(err)
+  }
+})
+
 router.post('/', async (req, res, next) => {
   try {
     const newWord = await Card.create(req.body)
     res.json(newWord)
   } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:wordId', async (req, res, next) => {
+  try {
+    const id = req.params.wordId
+
+    const newCard = await Card.update(req.body, {
+      where: {
+        id
+      }
+    })
+
+    res.json(newCard)
+  } catch(err) {
     next(err)
   }
 })
